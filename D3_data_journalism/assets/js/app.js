@@ -4,7 +4,7 @@ var svgHeight = 500;
 var margin = {
   top: 20,
   right: 40,
-  bottom: 60,
+  bottom: 75,
   left: 100
 };
 
@@ -28,7 +28,7 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
   // cast the data from the csv as numbers
   chartData.forEach(function(data) {
     data.poverty = +data.poverty;
-    data.healthcare = +data.healthCare;
+    data.healthcare = +data.healthcare;
   });
 
   // Create a scale for your independent (x) coordinates
@@ -38,7 +38,7 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
 
   // Create a scale for your dependent (y) coordinates
   var yScale = d3.scaleLinear()
-    .domain([0, d3.max(chartData, d => d.healthCare)])
+    .domain([0, d3.max(chartData, d => d.healthcare)])
     .range([svgHeight, 0]);
 
   // Create axis functions
@@ -53,22 +53,62 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
   chartGroup.append("g")
   .call(leftAxis);
 
+  // // Assign Variable for State Abbreviations
+  // var state = svg.selectAll("g myCircleText")
+  //   .data(chartData.abbr);
+
+  //Add the SVG Text Element to the svg
+  var text = svg.selectAll("#scatter")
+    .data(chartData)
+    .enter()
+    .append("text");
+  
+  // Add state abbreviations to text element
+  var state = text
+    .text(function (d) {return d.abbr;})
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "5px")
+    .attr("fill", "white");
+  
+  // Create Circles
+  var circlesGroup = chartGroup.selectAll("circle")
+    .data(chartData)
+    .enter()
+    .append("circle")
+    .attr("cx", d => xScale(d.poverty))
+    .attr("cy", d => yScale(d.healthcare))
+    .attr("r", "10")
+    .attr("fill", "blue")
+    .attr("opacity", ".5");
+
+  // Add text to circlesGroup
+
+  // Create axes labels
+  chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 0 - margin.left + 40)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .attr("class", "axisText")
+    .text("Lacks HealthCare (%)")
+    // .attr("font-family", "sans-serif")
+    // .attr("font-size", "20px")
+    // .attr("weight", "10px")
+    // .attr("fill", "blue");
+
+  chartGroup.append("text")
+    .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
+    .attr("class", "axisText")
+    .text("In Poverty (%)");
+}).catch(function(error) {
+  console.log(error);
+
+
 });
 
-  // Create Circles
 
 
-//     // Step 5: Create Circles
-//     // ==============================
-//     var circlesGroup = chartGroup.selectAll("circle")
-//     .data(chartData)
-//     .enter()
-//     .append("circle")
-//     .attr("cx", d => xLinearScale(d.poverty))
-//     .attr("cy", d => yLinearScale(d.healthCare))
-//     .attr("r", "15")
-//     .attr("fill", "blue")
-//     .attr("opacity", ".1");
+
 
 //     // Step 6: Initialize tool tip
 //     // ==============================
