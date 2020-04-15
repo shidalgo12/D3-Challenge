@@ -4,7 +4,7 @@ var svgHeight = 500;
 var margin = {
   top: 20,
   right: 40,
-  bottom: 75,
+  bottom: 60,
   left: 100
 };
 
@@ -34,12 +34,12 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
   // Create a scale for your independent (x) coordinates
   var xScale = d3.scaleLinear()
     .domain(d3.extent(chartData, d => d.poverty))
-    .range([0, svgWidth]);
+    .range([0, width]);
 
   // Create a scale for your dependent (y) coordinates
   var yScale = d3.scaleLinear()
     .domain([0, d3.max(chartData, d => d.healthcare)])
-    .range([svgHeight, 0]);
+    .range([height, 0]);
 
   // Create axis functions
   var bottomAxis = d3.axisBottom(xScale);
@@ -53,11 +53,7 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
   chartGroup.append("g")
   .call(leftAxis);
 
-  // // Assign Variable for State Abbreviations
-  // var state = svg.selectAll("g myCircleText")
-  //   .data(chartData.abbr);
-
-  //Add the SVG Text Element to the svg
+  //Add Text Element to the svg
   var text = svg.selectAll("#scatter")
     .data(chartData)
     .enter()
@@ -71,15 +67,22 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
     .attr("fill", "white");
   
   // Create Circles
-  var circlesGroup = chartGroup.selectAll("circle")
-    .data(chartData)
-    .enter()
-    .append("circle")
+  var circlesGroup = chartGroup.selectAll("circle").data(chartData).enter()
+    circlesGroup.append("circle")
     .attr("cx", d => xScale(d.poverty))
     .attr("cy", d => yScale(d.healthcare))
     .attr("r", "10")
     .attr("fill", "blue")
     .attr("opacity", ".5");
+
+  circlesGroup.append("text")
+    .text(function (d){
+      return d.abbr;
+    })
+    .attr("dx", d => xScale(d.poverty))
+    .attr("dy", d => yScale(d.healthcare))
+    .attr("font-size", "8")
+    .attr("class","stateText");
 
   // Add text to circlesGroup
 
@@ -90,7 +93,7 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
     .attr("class", "axisText")
-    .text("Lacks HealthCare (%)")
+    .text("Lacks Healthcare (%)")
     // .attr("font-family", "sans-serif")
     // .attr("font-size", "20px")
     // .attr("weight", "10px")
@@ -102,7 +105,6 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
     .text("In Poverty (%)");
 }).catch(function(error) {
   console.log(error);
-
 
 });
 
