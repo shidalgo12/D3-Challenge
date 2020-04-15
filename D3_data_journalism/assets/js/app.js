@@ -1,5 +1,5 @@
 var svgWidth = 960;
-var svgHeight = 500;
+var svgHeight = 400;
 
 var margin = {
   top: 20,
@@ -33,12 +33,12 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
 
   // Create a scale for your independent (x) coordinates
   var xScale = d3.scaleLinear()
-    .domain(d3.extent(chartData, d => d.poverty))
+    .domain([8,d3.max(chartData, d => d.poverty+2)])
     .range([0, width]);
 
   // Create a scale for your dependent (y) coordinates
   var yScale = d3.scaleLinear()
-    .domain([0, d3.max(chartData, d => d.healthcare)])
+    .domain([4, d3.max(chartData, d => d.healthcare+2)])
     .range([height, 0]);
 
   // Create axis functions
@@ -53,18 +53,18 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
   chartGroup.append("g")
   .call(leftAxis);
 
-  //Add Text Element to the svg
-  var text = svg.selectAll("#scatter")
-    .data(chartData)
-    .enter()
-    .append("text");
+  // //Add Text Element to the svg
+  // var text = svg.selectAll("#scatter")
+  //   .data(chartData)
+  //   .enter()
+  //   .append("text");
   
-  // Add state abbreviations to text element
-  var state = text
-    .text(function (d) {return d.abbr;})
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "5px")
-    .attr("fill", "white");
+  // // Add state abbreviations to text element
+  // var state = text
+  //   .text(function (d) {return d.abbr;})
+  //   .attr("font-family", "sans-serif")
+  //   .attr("font-size", "5px")
+  //   .attr("fill", "white");
   
   // Create Circles
   var circlesGroup = chartGroup.selectAll("circle").data(chartData).enter()
@@ -75,6 +75,7 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
     .attr("fill", "blue")
     .attr("opacity", ".5");
 
+  // Add text to circlesGroup
   circlesGroup.append("text")
     .text(function (d){
       return d.abbr;
@@ -83,8 +84,6 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
     .attr("dy", d => yScale(d.healthcare))
     .attr("font-size", "8")
     .attr("class","stateText");
-
-  // Add text to circlesGroup
 
   // Create axes labels
   chartGroup.append("text")
