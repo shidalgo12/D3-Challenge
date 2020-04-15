@@ -52,19 +52,6 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
 
   chartGroup.append("g")
   .call(leftAxis);
-
-  // //Add Text Element to the svg
-  // var text = svg.selectAll("#scatter")
-  //   .data(chartData)
-  //   .enter()
-  //   .append("text");
-  
-  // // Add state abbreviations to text element
-  // var state = text
-  //   .text(function (d) {return d.abbr;})
-  //   .attr("font-family", "sans-serif")
-  //   .attr("font-size", "5px")
-  //   .attr("fill", "white");
   
   // Create Circles
   var circlesGroup = chartGroup.selectAll("circle").data(chartData).enter()
@@ -107,47 +94,23 @@ d3.csv("assets/data/data.csv").then(function(chartData) {
 
 });
 
+ //  // Initialize tool tip
+  // var toolTip = d3.tip()
+  //   .attr("class", "tooltip")
+  //   .offset([80, -60])
+  //   .html(function(d) {
+  //     return (`${d.state}<br>Poverty %: ${d.poverty}<br>Healthcare %: ${d.healthcare}`);
+  // });
 
+  // // Create tooltip in the chart
+  // chartGroup.call(toolTip);
 
+  // // Create event listeners to display and hide the tooltip
+  // circlesGroup.on("click", function(data) {
+  //   toolTip.show(data, this);
+  // })
 
-
-//     // Step 6: Initialize tool tip
-//     // ==============================
-//     var toolTip = d3.tip()
-//       .attr("class", "tooltip")
-//       .offset([80, -60])
-//       .html(function(d) {
-//         return (`${d.abbr}<br>Hair length: ${d.poverty}<br>Hits: ${d.healthCare}`);
-//       });
-
-//     // Step 7: Create tooltip in the chart
-//     // ==============================
-//     chartGroup.call(toolTip);
-
-//     // Step 8: Create event listeners to display and hide the tooltip
-//     // ==============================
-//     circlesGroup.on("click", function(data) {
-//       toolTip.show(data, this);
-//     });
-
-//     // onmouseout event
-//     // .on("mouseout", function(data, index) {
-//     //   toolTip.hide(data);
-//     // });
-
-//     // Create axes labels
-//     chartGroup.append("text")
-//       .attr("transform", "rotate(-90)")
-//       .attr("y", 0 - margin.left + 40)
-//       .attr("x", 0 - (height / 2))
-//       .attr("dy", "1em")
-//       .attr("class", "axisText")
-//       .text("Lacks HealthCare (%)");
-
-//     chartGroup.append("text")
-//       .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
-//       .attr("class", "axisText")
-//       .text("In Poverty (%)");
-//   }).catch(function(error) {
-//     console.log(error);
-// });
+  // // onmouseout event
+  // .on("mouseout", function(data, index) {
+  //   toolTip.hide(data);
+  // });
