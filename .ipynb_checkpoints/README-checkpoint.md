@@ -6,7 +6,7 @@ Sifted through information from the U.S. Census Bureau and the Behavioral Risk F
 
 ## Scatter Plot
 
-Data pulled from .csv file by using the d3.csv function. Bootstrap CSS used to design elements of the HTML page and scatter plot including margins, fonts, markers, axes and labels. The following details applied to the scatter plot and fed into the html file for display:
+Data pulled from .csv file by using the d3.csv function. Bootstrap CSS used to design elements of the HTML page and scatter plot including margins, fonts, markers, axes and labels. The following details applied to the scatter plot and fed into the html file using D3:
 
 * Each state represented with circle elements.
 * State abbreviations added into the circles.
